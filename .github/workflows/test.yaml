@@ -2,7 +2,7 @@ name: Test
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, "releases/v*"]
   pull_request:
   workflow_dispatch:
 
@@ -17,11 +17,10 @@ jobs:
         version: [ "latest", "1.67.0" ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: Setup Exoscale CLI
         uses: ./
         with:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           version: ${{ matrix.version }}
       - name: Test the CLI
         run: exo version
@@ -35,12 +34,10 @@ jobs:
         version: [ "latest", "1.67.0" ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: Setup Exoscale CLI
         uses: ./
         with:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          authenticate: true
           zone: ch-gva-2
           version: ${{ matrix.version }}
           account: ${{ secrets.EXOSCALE_ACCOUNT }}
